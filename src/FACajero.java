@@ -105,11 +105,11 @@ public class FACajero extends javax.swing.JFrame {
         if (fila == -1) {
             return;
         }
-        // Obtiene el número de mesa de la columna 0
+       
     mesaSeleccionada = Integer.parseInt(jtCajer.getValueAt(fila, 0).toString());
     double total = 0;
     
-    // Suma todos los platillos de la tabla que pertenezcan a esa misma mesa
+   
     for (int i = 0; i < jtCajer.getRowCount(); i++) {
         int mesaFila = Integer.parseInt(jtCajer.getValueAt(i, 0).toString());
         if (mesaFila == mesaSeleccionada) {

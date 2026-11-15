@@ -84,7 +84,7 @@ public class FAMesero extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(453, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(452, 452, 452))
         );
@@ -172,11 +172,11 @@ public class FAMesero extends javax.swing.JFrame {
         String platillo = modeloOrden.getValueAt(i, 0).toString();
         String obs = modeloOrden.getValueAt(i, 2).toString();
 
-        // id del alimento a partir del nombre
+        
         String idAlimento = cnx.buscarDato("alimentos", "idalimentos", "nombre", platillo);
 
         Ordenes o = new Ordenes(
-            null,          // folio: AUTO_INCREMENT
+            null,          
             fechaHora,
             obs,
             "Ordenada",
@@ -194,7 +194,7 @@ public class FAMesero extends javax.swing.JFrame {
     }
 
     if (guardadas == modeloOrden.getRowCount()) {
-        // Marca la mesa como ocupada usando la clase Mesas
+        
         Mesas m = new Mesas();
         m.numero = numMesa;
         m.estadom = "Ocupada";

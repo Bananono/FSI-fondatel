@@ -8,7 +8,7 @@ public class Login extends javax.swing.JFrame {
 
      Conexion cnx = new Conexion();
     
-        String puesto = "SELECT puesto FROM empleados WHERE codigo = '%s' AND nip = '%s'";
+        String puesto = "SELECT puesto FROM empleados WHERE codigo = '%s' AND nip = '%s'"; 
         int intentos=0;
         
     public Login() {

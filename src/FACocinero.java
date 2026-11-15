@@ -156,18 +156,17 @@ public class FACocinero extends javax.swing.JFrame {
         return;
     }
 
-    // Obtiene el folio de la columna 0
+    
     int folio = Integer.parseInt(Tjcocinero.getValueAt(filaSeleccionada, 0).toString());
     
-    // Obtiene el estado del ComboBox
+    
     String nuevoEstado = cboEstado.getSelectedItem().toString();
 
-    // Llama al método que hace el UPDATE en la BD
+    
     if (cambiarEstado(folio, nuevoEstado) > 0) {
         JOptionPane.showMessageDialog(this, "Orden #" + folio + " actualizada a: " + nuevoEstado);
         
-        // AQUÍ ESTÁ LA MAGIA: Recargamos TODO, no solo los nuevos.
-        // Así el pedido no desaparece, solo cambia su estado en la tabla.
+        
         cnx.entablar(todo, Tjcocinero); 
         
     } else {
