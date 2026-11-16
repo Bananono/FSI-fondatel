@@ -78,4 +78,17 @@ public class Empleados {
                 return resultado;
             }
         }
+     
+     public int cambiarEstado(Connection con){
+    try {
+        String sql = "UPDATE empleados SET estadoe = ? WHERE codigo = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, estadoe);
+        ps.setString(2, codigo);
+        return ps.executeUpdate();
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        return 0;
+    }
+}
 }

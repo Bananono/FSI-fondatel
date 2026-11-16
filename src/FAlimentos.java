@@ -3,7 +3,9 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+
 
 
 public class FAlimentos extends javax.swing.JFrame {
@@ -20,6 +22,7 @@ public class FAlimentos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setIconImage(icono.getImage());
         TConsultas.setRowHeight(130);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
     cnx = new Conexion();
         
@@ -180,7 +183,7 @@ public class FAlimentos extends javax.swing.JFrame {
         String cat = categoria.getText();
         String est = estado.getText();
         
-        FAMenu menu = new FAMenu(cla, tit, des, pre, car, cat, est);
+        Menu menu = new Menu(cla, tit, des, pre, car, cat, est);
         if (menu.insertar(cnx)== 1){
             cnx.entablar("SELECT * FROM alimentos", TConsultas,  8, 20, 25, 10, 20, 10, 7);
         }else{

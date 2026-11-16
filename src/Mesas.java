@@ -65,4 +65,17 @@ public class Mesas {
                 return resultado;
             }
         }
+    public int cambiarEstado(Connection con){
+    try {
+        String sql = "UPDATE mesas SET estadom = ? WHERE numero = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, estadom);
+        ps.setString(2, numero);
+        return ps.executeUpdate();
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        return 0;
+    }
+}
+    
 }

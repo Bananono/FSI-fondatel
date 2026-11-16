@@ -1,5 +1,6 @@
 
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -25,6 +26,7 @@ public class FMenu extends javax.swing.JFrame {
         setLocationRelativeTo(this);
         setTitle("Menu de Fondatel");
         TMenu.setRowHeight(100);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
         if (cnx.conectar("localhost", "fondatel", "root", "") == 1) {
             cnx.entablar(todo, TMenu);

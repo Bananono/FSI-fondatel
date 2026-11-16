@@ -1,27 +1,23 @@
 
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-/**
- *
- * @author xdelb
- */
 public class FACajero extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FACajero.class.getName());
 
     Conexion cnx = new Conexion();
+    String tickets = "SELECT * FROM tikets";
+    int mesaSeleccionada = -1;
+    
     public FACajero() {
         initComponents();
         setTitle("C A J E R O");
         setLocationRelativeTo(null);
-        
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        jtCajer.setRowHeight(100);
         if (cnx.conectar("localhost", "fondatel", "root", "")==1) {
-           
+           cnx.entablar(tickets, jtCajer);
         } else {
             JOptionPane.showMessageDialog(this, "Error");
             System.exit(0);
@@ -37,49 +33,117 @@ public class FACajero extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtCajer = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jlTotalPagar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(51, 255, 0));
+        jPanel2.setBackground(new java.awt.Color(51, 255, 0));
+        jPanel2.setForeground(new java.awt.Color(0, 153, 0));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Interfaz Cajero");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(214, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(401, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(180, 180, 180))
+                .addGap(390, 390, 390))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(318, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, -1));
+
+        jtCajer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jtCajer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtCajerMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtCajer);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 790, 480));
+
+        jButton1.setText("Procesar Pago");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 140, 30));
+
+        jlTotalPagar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jlTotalPagar.setForeground(new java.awt.Color(255, 0, 0));
+        getContentPane().add(jlTotalPagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 150, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jtCajerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtCajerMouseClicked
+       int fila =jtCajer.getSelectedRow();
+        if (fila == -1) {
+            return;
+        }
+        // Obtiene el número de mesa de la columna 0
+    mesaSeleccionada = Integer.parseInt(jtCajer.getValueAt(fila, 0).toString());
+    double total = 0;
+    
+    // Suma todos los platillos de la tabla que pertenezcan a esa misma mesa
+    for (int i = 0; i < jtCajer.getRowCount(); i++) {
+        int mesaFila = Integer.parseInt(jtCajer.getValueAt(i, 0).toString());
+        if (mesaFila == mesaSeleccionada) {
+            total += Double.parseDouble(jtCajer.getValueAt(i, 2).toString()); // Columna 2 = Precio
+        }
+    }
+    jlTotalPagar.setText("Total Mesa " + mesaSeleccionada + ": $" + total);
+    }//GEN-LAST:event_jtCajerMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (mesaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila de la mesa para cobrar");
+            return;
+        }
+        
+        Ordenes orden = new Ordenes();
+        orden.mesas_numero = String.valueOf(mesaSeleccionada);
+        int actualizados = orden.pagarMesa(cnx.con);
+        
+        if (actualizados > 0) {
+            Mesas mesa = new Mesas();
+            mesa.numero = String.valueOf(mesaSeleccionada);
+            mesa.estadom = "Libre";
+            mesa.cambiarEstado(cnx.con);
+            
+            JOptionPane.showMessageDialog(this, "Cobro realizado a la mes " + mesaSeleccionada + "libre");
+            cnx.entablar(tickets, jtCajer);
+            jlTotalPagar.setText("");
+            mesaSeleccionada = -1;
+        }else{
+            JOptionPane.showMessageDialog(this, "No hay ordenes por cobrar");
+        }
+ 
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,7 +171,11 @@ public class FACajero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlTotalPagar;
+    private javax.swing.JTable jtCajer;
     // End of variables declaration//GEN-END:variables
 }

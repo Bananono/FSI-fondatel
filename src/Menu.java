@@ -3,10 +3,10 @@ import java.io.Serializable;
 import java.sql.PreparedStatement;
 import javax.swing.ImageIcon;
 
-public class FAMenu implements Serializable{
+public class Menu implements Serializable{
  private String clave,titulo, descripcion, precio, categoria, estado;
     private ImageIcon cartel;
-    public FAMenu(String clave, String titulo, String descripcion, String precio, ImageIcon cartel, String categoria, String estado){
+    public Menu(String clave, String titulo, String descripcion, String precio, ImageIcon cartel, String categoria, String estado){
         this.clave = clave;
         this.titulo = titulo;
         this.cartel = cartel;

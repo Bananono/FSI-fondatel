@@ -16,8 +16,11 @@ public class Login extends javax.swing.JFrame {
         setTitle("L O G I N");
         setLocationRelativeTo(null);
         
-        if (cnx.conectar("localhost", "fondatel", "root", "") == 0) {
-            JOptionPane.showMessageDialog(this, "Sin conexión. La ventana se cerrará...");
+       if (cnx.conectar("localhost", "fondatel", "root", "")==1) {
+            
+           
+        } else {
+            JOptionPane.showMessageDialog(this, "Error");
             System.exit(0);
         }
     }

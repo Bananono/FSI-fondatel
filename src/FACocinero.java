@@ -1,5 +1,9 @@
 
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -16,18 +20,40 @@ public class FACocinero extends javax.swing.JFrame {
 
      Conexion cnx = new Conexion();
      
+      String todo = "SELECT * FROM comandas ORDER BY folio ASC";
+     String consultasNuevo = "SELECT * FROM comandas WHERE estadoo = 'Ordenada' ORDER BY folio ASC";
+     String consultasPreparado = "SELECT * FROM comandas WHERE estadoo = 'Preparando' ORDER BY folio ASC";
+     
     public FACocinero() {
         initComponents();
         setTitle("C O C I N E R O");
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+         Tjcocinero.setRowHeight(100);
+         
         
         if (cnx.conectar("localhost", "fondatel", "root", "")==1) {
-           
+            cnx.entablar(todo, Tjcocinero);
+           llenarComboBox();
         } else {
             JOptionPane.showMessageDialog(this, "Error");
             System.exit(0);
         }
     }
+    
+
+    private void llenarComboBox(){
+        cboEstado.removeAllItems();
+        cboEstado.addItem("Preparando");
+        cboEstado.addItem("Preparado");
+    }
+    
+    private int cambiarEstado(int folio, String nuevoEstado) {
+    Ordenes o = new Ordenes();
+    o.folio = String.valueOf(folio);
+    o.estadoo = nuevoEstado;
+    return o.cambiarEstado(cnx.con);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,18 +64,23 @@ public class FACocinero extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tjcocinero = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        cboEstado = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel2.setText("btn");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(102, 0, 102));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Interfaz Cocinero");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -57,39 +88,96 @@ public class FACocinero extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(201, 201, 201)
+                .addGap(316, 316, 316)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(225, Short.MAX_VALUE))
+                .addContainerGap(477, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(298, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 70));
+
+        Tjcocinero.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Folio", "Mesa", "Platillo", "Observaciones", "Estado"
+            }
+        ));
+        jScrollPane1.setViewportView(Tjcocinero);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 80, 800, 513));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/actualizar.png"))); // NOI18N
+        jButton1.setText("Refrescar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 90, 140, 70));
+
+        cboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Preparado", "Entregado" }));
+        getContentPane().add(cboEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 200, 120, 50));
+
+        jButton2.setText("Ordenada");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 290, 110, 30));
+
+        jButton3.setText("En Preparacion");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 340, 110, 30));
+
+        jButton4.setText("Estado");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 390, 110, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       cnx.entablar(consultasNuevo, Tjcocinero);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        cnx.entablar(consultasPreparado, Tjcocinero);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+          int filaSeleccionada = Tjcocinero.getSelectedRow();
+
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona una orden de la tabla primero.");
+        return;
+    }
+
+    // Obtiene el folio de la columna 0
+    int folio = Integer.parseInt(Tjcocinero.getValueAt(filaSeleccionada, 0).toString());
+    
+    // Obtiene el estado del ComboBox
+    String nuevoEstado = cboEstado.getSelectedItem().toString();
+
+    // Llama al método que hace el UPDATE en la BD
+    if (cambiarEstado(folio, nuevoEstado) > 0) {
+        JOptionPane.showMessageDialog(this, "Orden #" + folio + " actualizada a: " + nuevoEstado);
+        
+        // AQUÍ ESTÁ LA MAGIA: Recargamos TODO, no solo los nuevos.
+        // Así el pedido no desaparece, solo cambia su estado en la tabla.
+        cnx.entablar(todo, Tjcocinero); 
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo actualizar la orden #" + folio);
+    }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cnx.entablar(todo, Tjcocinero);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,8 +205,14 @@ public class FACocinero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Tjcocinero;
+    private javax.swing.JComboBox<String> cboEstado;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,33 +1,54 @@
 
+
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-/**
- *
- * @author xdelb
- */
 public class FAMesero extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FAMesero.class.getName());
 
     Conexion cnx = new Conexion();
+    String menu = "SELECT * FROM menu";
+    
+    DefaultTableModel modeloOrden;
     
     public FAMesero() {
         initComponents();
         setTitle("M E S E R O");
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        jtMenu.setRowHeight(80);
+        configurarTablaOrden();
         
         if (cnx.conectar("localhost", "fondatel", "root", "")==1) {
+           cnx.entablar(menu, jtMenu);
+           cargarMesas();
            
         } else {
             JOptionPane.showMessageDialog(this, "Error");
             System.exit(0);
         }
     }
+    
+    private void configurarTablaOrden() {
+        modeloOrden = new DefaultTableModel(
+            new Object[]{ "Platillo", "Precio", "Observaciones"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jtOrdenAct.setModel(modeloOrden);
+    }
+    
+    private void cargarMesas() {
+    cnx.seleccionar(Mesas.num_mesas, cboMesas);   
+}
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,13 +59,19 @@ public class FAMesero extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtMenu = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtOrdenAct = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        cboMesas = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
+        txtObservaciones = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jButton1.setText("btn");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
 
@@ -57,39 +84,130 @@ public class FAMesero extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(209, 209, 209))
+                .addGap(452, 452, 452))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(177, 177, 177)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 286, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1149, -1));
+
+        jtMenu.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID Alimento", "Platillo", "Precio", "Observaciones"
+            }
+        ));
+        jScrollPane1.setViewportView(jtMenu);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 86, 731, 439));
+
+        jtOrdenAct.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jtOrdenAct);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(755, 86, 347, 439));
+
+        jButton1.setText("Enviar a Cocina");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 543, 154, 30));
+
+        cboMesas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libre", "Ocupada" }));
+        getContentPane().add(cboMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 543, 159, 30));
+
+        jButton2.setText("Agregar a la orden");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 540, 160, 30));
+        getContentPane().add(txtObservaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 550, 380, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+     int fila = jtMenu.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un platillo del menu");
+            return;
+        }
+         String platillo = jtMenu.getValueAt(fila, 0).toString();
+        String precio = jtMenu.getValueAt(fila, 2).toString();
+        String obs = txtObservaciones.getText().trim();
+        
+        modeloOrden.addRow(new Object[]{platillo, precio, obs});
+        txtObservaciones.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         if (modeloOrden.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(this, "Agrega al menos un platillo a la orden.");
+        return;
+    }
+
+    String numMesa = cboMesas.getSelectedItem().toString();
+    String fechaHora = java.time.LocalDateTime.now()
+            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+    int guardadas = 0;
+    for (int i = 0; i < modeloOrden.getRowCount(); i++) {
+        String platillo = modeloOrden.getValueAt(i, 0).toString();
+        String obs = modeloOrden.getValueAt(i, 2).toString();
+
+        // id del alimento a partir del nombre
+        String idAlimento = cnx.buscarDato("alimentos", "idalimentos", "nombre", platillo);
+
+        Ordenes o = new Ordenes(
+            null,          // folio: AUTO_INCREMENT
+            fechaHora,
+            obs,
+            "Ordenada",
+            "1",           // silla
+            "CLI007",      // cliente
+            numMesa,
+            idAlimento,
+            "MES001",      // mesero
+            "COC001"       // cocinero
+        );
+
+        if (o.insertar(cnx.con) > 0) {
+            guardadas++;
+        }
+    }
+
+    if (guardadas == modeloOrden.getRowCount()) {
+        // Marca la mesa como ocupada usando la clase Mesas
+        Mesas m = new Mesas();
+        m.numero = numMesa;
+        m.estadom = "Ocupada";
+        m.cambiarEstado(cnx.con);
+
+        JOptionPane.showMessageDialog(this, "Orden enviada a cocina para la Mesa " + numMesa + "!");
+        modeloOrden.setRowCount(0);
+    } else {
+        JOptionPane.showMessageDialog(this, "Se guardaron " + guardadas + " de "
+                + modeloOrden.getRowCount() + " platillos. Revisa la consola.");
+    }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,8 +235,15 @@ public class FAMesero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cboMesas;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jtMenu;
+    private javax.swing.JTable jtOrdenAct;
+    private javax.swing.JTextField txtObservaciones;
     // End of variables declaration//GEN-END:variables
 }

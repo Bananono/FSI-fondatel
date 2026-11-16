@@ -87,5 +87,30 @@ public class Ordenes {
                 return resultado;
             }
         }
+    public int cambiarEstado(Connection con){
+    try {
+        String sql = "UPDATE ordenes SET estadoo = ? WHERE folio = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, estadoo);
+        ps.setString(2, folio);
+        return ps.executeUpdate();
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        return 0;
+    }
+}
+    
+    public int pagarMesa(Connection con){
+    try {
+        String sql = "UPDATE ordenes SET estadoo = 'Pagado' "
+                   + "WHERE mesas_numero = ? AND estadoo = 'Entregado' AND DATE(fecha_hora) = CURDATE()";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, mesas_numero);
+        return ps.executeUpdate();
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        return 0;
+    }
+}
     
 }
